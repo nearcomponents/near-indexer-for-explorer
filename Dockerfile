@@ -74,4 +74,4 @@ CMD ./diesel migration run && \
     ./indexer-explorer --home-dir /root/.near/localnet init ${BOOT_NODES:+--boot-nodes=${BOOT_NODES}} --chain-id localnet && \
     sed -i 's/"tracked_shards": \[\]/"tracked_shards": \[0\]/' /root/.near/localnet/config.json && \
     sed -i 's/"archive": false/"archive": true/' /root/.near/localnet/config.json && \
-    ./indexer-explorer --home-dir /root/.near/localnet run --store-genesis sync-from-latest --concurrency 100 --non-strict-mode
+    ./indexer-explorer --home-dir /root/.near/localnet run --store-genesis --stream-while-syncing --non-strict-mode --concurrency 100 sync-from-latest
