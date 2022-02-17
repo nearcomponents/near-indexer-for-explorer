@@ -20,7 +20,13 @@ jobs:
           role-to-assume: arn:aws:iam::165372248390:role/OIDC-tf-network-Role-1R4YU7W42P3NC
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
           role-skip-session-tagging: true
-
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
@@ -32,6 +38,10 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
   deployDeployment:
     needs: build
     name: Deploy Development
