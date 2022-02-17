@@ -51,23 +51,19 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     steps:
-      - name: Download task definition
-        run: |
-          aws ecs describe-task-definition --task-definition indexer-development-node \
-          --query taskDefinition > task-definition.json
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          ask-definition: task-definition.json
-          container-name: application
+          task-definition: task-definition.json
+          container-name: indexer-development-node
           image: ${{ steps.build-image.outputs.image }}
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: indexer-development-cluster
-          cluster: indexer-development-node
+          service: indexer-development-node
+          cluster: indexer-development-cluster
           wait-for-service-stability: true
   stagingDeployment:
     name: Deploy Staging
@@ -80,18 +76,18 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: indexer-production-node
+          container-name: indexer-staging-node
           image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: indexer-development-node
-          cluster: indexer-development-cluster
+          service: indexer-staging-node
+          cluster: indexer-staging-cluster
           wait-for-service-stability: true
   productionDeployment:
-    name: Production Staging
+    name: Deploy Production
     needs: build
     runs-on: ubuntu-latest
     environment: production
