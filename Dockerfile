@@ -70,8 +70,4 @@ COPY --from=build /near/indexer-explorer/migrations ./migrations
  
 # If the --store-genesis flag isn't set, the accounts in genesis won't get created in the DB which will lead to foreign key constraint violations
 # See https://github.com/near/near-indexer-for-explorer/issues/167
-CMD ./diesel migration run && \
-    ./indexer-explorer --home-dir /indexer/near/localnet init ${BOOT_NODES:+--boot-nodes=${BOOT_NODES}} --chain-id localnet && \
-    sed -i 's/"tracked_shards": \[\]/"tracked_shards": \[0\]/' /indexer/near/localnet/config.json && \
-    sed -i 's/"archive": false/"archive": true/' /indexer/near/localnet/config.json && \
-    ./indexer-explorer --home-dir /indexer/near/localnet run --store-genesis --stream-while-syncing --non-strict-mode --concurrency 100 sync-from-latest
+CMD ./docker_entrypoint.sh
