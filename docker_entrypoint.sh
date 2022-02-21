@@ -13,13 +13,13 @@ elif [ "$environment" = "staging" ]; then
 
     echo "Running testnet..."
     ./diesel migration run && \
-    ./indexer-explorer --home-dir /indexer/near/testnet run --store-genesis --stream-while-syncing --non-strict-mode --concurrency 100 sync-from-latest
+    ./indexer-explorer --home-dir /indexer/near/testnet run --store-genesis --stream-while-syncing --non-strict-mode --concurrency 100 sync-from-block --height 42376923
 
 elif [ "$environment" = "production" ]; then
 
     echo "Running mainnnet..."
     ./diesel migration run && \
-    ./indexer-explorer --home-dir /indexer/near/mainnet run --store-genesis --stream-while-syncing --non-strict-mode --concurrency 100 sync-from-latest
+    ./indexer-explorer --home-dir /indexer/near/mainnet run --store-genesis --stream-while-syncing --non-strict-mode --concurrency 100 sync-from-block --height 9820214
 
 else
     exit 1
