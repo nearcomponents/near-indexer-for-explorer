@@ -23,7 +23,7 @@ elif [ "$environment" = "production" ]; then
     cd /indexer/near/mainnet && \
     rm -rf config.json && \
     wget https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/mainnet/config.json && \
-    sed -i 's/"archive": false/"archive": true/' /indexer/near/mainne/config.json && \
+    sed -i 's/"archive": false/"archive": true/' /indexer/near/mainnet/config.json && \
     cd /near/indexer-explorer && \
     ./indexer-explorer --home-dir /indexer/near/mainnet run --store-genesis --stream-while-syncing --non-strict-mode --concurrency 100 sync-from-block --height 9820214
 
