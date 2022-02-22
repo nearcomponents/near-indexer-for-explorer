@@ -13,7 +13,7 @@ elif [ "$environment" = "staging" ]; then
 
     echo "Running testnet..."
     ./diesel migration run && \
-    ./indexer-explorer --home-dir /indexer/near/testnet run --store-genesis --stream-while-syncing --non-strict-mode --concurrency 100 sync-from-block --height 42376923
+    ./indexer-explorer --home-dir /indexer/near/testnet run --store-genesis --stream-while-syncing --non-strict-mode --concurrency 100 sync-from-interruption --delta 500
 
 elif [ "$environment" = "production" ]; then
 
