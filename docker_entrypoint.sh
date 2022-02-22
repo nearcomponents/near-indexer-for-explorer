@@ -19,7 +19,7 @@ elif [ "$environment" = "production" ]; then
 
     echo "Running mainnnet..."
     ./diesel migration run && \
-    ./indexer-explorer --home-dir /indexer/near/mainnet run --store-genesis --stream-while-syncing --non-strict-mode --concurrency 100 sync-from-block --height 9820214
+    ./indexer-explorer --home-dir /indexer/near/mainnet run --store-genesis --stream-while-syncing --non-strict-mode --concurrency 100 sync-from-interruption --delta 500
 
 else
     exit 1
