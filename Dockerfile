@@ -69,6 +69,7 @@ COPY --from=build /tmp/target/release/indexer-explorer .
 COPY --from=build /near/indexer-explorer/migrations ./migrations
 COPY ./docker_entrypoint.sh ./docker_entrypoint.sh
 RUN chmod +x ./docker_entrypoint.sh
+RUN apt-get update && apt-get install curl -y
  
 # If the --store-genesis flag isn't set, the accounts in genesis won't get created in the DB which will lead to foreign key constraint violations
 # See https://github.com/near/near-indexer-for-explorer/issues/167
